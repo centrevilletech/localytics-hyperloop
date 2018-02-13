@@ -1,0 +1,8 @@
+"Button": {
+	height: 50,
+	top: 10	
+},
+
+"#generalTabWindow": {
+	layout: 'vertical'
+}

@@ -1,0 +1,16 @@
+<Alloy>
+	<TabGroup title="Localytics-Hyperloop Test App">
+		<Tab title="General">
+			<Window id="generalTabWindow" title="General">
+				<Button title="Tag Event" id="tagEventBtn" onClick="doTagEventBtnClick" />
+				<Button title="Tag Screen" id="tagScreenBtn" onClick="doTagScreenBtnClick" />
+				<Button title="Set Profile Attribute" id="setProfileAttributeBtn" onClick="doSetProfileBtnClick" />
+			</Window>
+		</Tab>
+		<Tab title="App Inbox">
+			<Window id="appInboxTabWindow" title="App Inbox">
+
+			</Window>
+		</Tab>
+	</TabGroup>
+</Alloy>
