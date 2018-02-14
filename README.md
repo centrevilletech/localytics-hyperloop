@@ -1,4 +1,4 @@
-## localytics-hyperloop
+## localytics-hyperloop [![Titanium](http://www-static.appcelerator.com/badges/titanium-git-badge-sq.png)](http://www.appcelerator.com/titanium/)
 
 This project provides a helper library called "localytics-hyperloop.js" inside of the
 lib folder that allows you to take advantage of the Localytics native SDKs inside of your Titanium app.
