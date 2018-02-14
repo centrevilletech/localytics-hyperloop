@@ -1,5 +1,7 @@
 ## localytics-hyperloop [![Titanium](http://www-static.appcelerator.com/badges/titanium-git-badge-sq.png)](http://www.appcelerator.com/titanium/)
 
+[![Localytics Logo](localytics.png)](https://www.localytics.com/)
+
 This project provides a helper library called "localytics-hyperloop.js" inside of the
 lib folder that allows you to take advantage of the Localytics native SDKs inside of your Titanium app.
 Also includes sample code showing you how to use the methods developed for Localytics using Hyperloop so far.
@@ -10,6 +12,7 @@ Also includes sample code showing you how to use the methods developed for Local
 - [x] Set Profile Attribute
 - [x] App Inbox Support for iOS
 - [ ] TODO: App Inbox Support for Android
+- [ ] TODO: Add support for handling incoming push notifications.
 
 ### Roadmap
 
