@@ -2,7 +2,8 @@
 	"global": {
 		"styles": {
 			"tintColor": "#c91326"
-		}
+		},
+		"localyticsTestMode": false
 	},
 	"env:development": {},
 	"env:test": {},
