@@ -8,8 +8,8 @@
 
 var Localytics,
 	TiApp,
-	LLInboxViewController,
-	inboxViewController,
+	InboxViewController,
+	NavigationController,
 	appInboxBackgroundService,
 	appInboxBackgroundServiceStatus = false,
 	currentInboxMessages = [];
@@ -25,7 +25,8 @@ function _init(localyticsKey) {
 			Localytics = require("Localytics/Localytics");
 			Localytics.autoIntegrateLaunchOptions(localyticsKey, TiApp.app.launchOptions);
 			Localytics.setLoggingEnabled(true);
-			LLInboxViewController = require("Localytics/LLInboxViewController")
+			InboxViewController = require("Localytics/LLInboxViewController");
+			NavigationController = require('UIKit/UINavigationController');
 		} else {
 			var Activity = require('android.app.Activity');
 			var currentActivity = new Activity(Ti.Android.currentActivity);
@@ -105,9 +106,12 @@ exports.getAppInboxView = function () {
 		return;
 	}
 	if (!inboxViewController) {
-		console.log('Creating an InboxViewController instance.');
-		inboxViewController = LLInboxViewController.alloc().init();
-		return inboxViewController.view;
+		// TODO: Remove the titlebar of the AppInbox until a campaign is opened. Then hide it again after a campaign is closed.
+		var inboxViewController = InboxViewController.alloc().init();
+		var navigationController = NavigationController.alloc().initWithRootViewController(inboxViewController);
+		containerView = Ti.UI.createView();
+		containerView.add(navigationController.view);
+		return containerView;
 	}
 };
 
