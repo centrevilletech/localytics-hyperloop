@@ -19,5 +19,12 @@
 
 			</Window>
 		</Tab>
+		<Tab title="Misc">
+			<Window id="miscTabWindow" title="Misc">
+				<ScrollView id="miscTabScrollContainerView">
+					<Button title="Upload" id="uploadBtn" onClick="doUploadBtnClick" />
+				</ScrollView>
+			</Window>
+		</Tab>
 	</TabGroup>
 </Alloy>

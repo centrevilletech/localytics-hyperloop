@@ -7,6 +7,7 @@ $.appInboxTabWindow.add(localyticsHyperloop.getAppInboxView());
 
 /*
  * Event Listeners
+ * - General Tab
  */
 
 function doTagEventBtnClick() {
@@ -49,4 +50,14 @@ function doSetFullNameBtnClick() {
 function doSetEmailAddressBtnClick() {
 	localyticsHyperloop.setEmailAddress('sir.john@smith.com');
 	alert('Email address set!');
+}
+
+/*
+ * Event Listeners
+ * - Misc Tab
+ */
+
+function doUploadBtnClick() {
+	localyticsHyperloop.upload();
+	alert('Hit the Upload method!');
 }

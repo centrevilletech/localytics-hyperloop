@@ -238,5 +238,21 @@ exports.setEmailAddress = function(emailAddress) {
 };
 
 /*
+ * System methods.
+ */
+
+// Used to trigger a manual upload of the Localytics data.
+exports.upload = function() {
+	if ((!Alloy.CFG.localyticsTestMode)) {
+		if (Localytics) {
+			Localytics.upload();
+		} else {
+			_init(Alloy.Globals.localyticsKey);
+			Localytics.upload();
+		}
+	}
+};
+
+/*
  * EOF
  */
