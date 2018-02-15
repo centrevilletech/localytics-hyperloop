@@ -3,6 +3,6 @@
 	top: 10	
 },
 
-"#generalTabWindow": {
+"#generalTabScrollContainerView": {
 	layout: 'vertical'
 }

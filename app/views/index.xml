@@ -2,9 +2,16 @@
 	<TabGroup title="Localytics-Hyperloop Test App">
 		<Tab title="General">
 			<Window id="generalTabWindow" title="General">
-				<Button title="Tag Event" id="tagEventBtn" onClick="doTagEventBtnClick" />
-				<Button title="Tag Screen" id="tagScreenBtn" onClick="doTagScreenBtnClick" />
-				<Button title="Set Profile Attribute" id="setProfileAttributeBtn" onClick="doSetProfileBtnClick" />
+				<ScrollView id="generalTabScrollContainerView">
+					<Button title="Tag Event" id="tagEventBtn" onClick="doTagEventBtnClick" />
+					<Button title="Tag Screen" id="tagScreenBtn" onClick="doTagScreenBtnClick" />
+					<Button title="Set Profile Attribute" id="setProfileAttributeBtn" onClick="doSetProfileBtnClick" />
+					<Button title="Set Customer Id" class="testBtns" onClick="doSetCustomerIdBtnClick" />
+					<Button title="Set First Name" class="testBtns" onClick="doSetFirstNameBtnClick" />
+					<Button title="Set Last Name" class="testBtns" onClick="doSetLastNameBtnClick" />
+					<Button title="Set Full Name" class="testBtns" onClick="doSetFullNameBtnClick" />
+					<Button title="Set Email Address" class="testBtns" onClick="doSetEmailAddressBtnClick" />
+				</ScrollView>
 			</Window>
 		</Tab>
 		<Tab title="App Inbox">

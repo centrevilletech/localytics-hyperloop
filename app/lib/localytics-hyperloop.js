@@ -98,6 +98,10 @@ exports.setProfileAttribute = function(key, value) {
 	}
 };
 
+/*
+ * AppInbox Methods
+ */
+
 // Returns the app inbox view that you can embed into your app.
 // This is a standard view like any other that you can set a width/height/opacity/etc on.
 exports.getAppInboxView = function () {
@@ -166,6 +170,70 @@ exports.stopAppInboxBackgroundService = function () {
 	appInboxBackgroundServiceStatus = false;
 	if (typeof appInboxBackgroundService !== 'undefined') {
 		clearTimeout(appInboxBackgroundService);
+	}
+};
+
+/*
+ * Customer identification methods.
+ */
+
+// Used to set a customer ID. Example: 3neRKTxbNWYKM4NJ
+exports.setCustomerId = function(customerId) {
+	if (customerId && (!Alloy.CFG.localyticsTestMode)) {
+		if (Localytics) {
+			Localytics.setCustomerId(customerId);
+		} else {
+			_init(Alloy.Globals.localyticsKey);
+			Localytics.setCustomerId(customerId);
+		}
+	}
+};
+
+// Used to set a customer first name. Example: John
+exports.setFirstName = function(firstName) {
+	if (firstName && (!Alloy.CFG.localyticsTestMode)) {
+		if (Localytics) {
+			Localytics.setCustomerId(firstName);
+		} else {
+			_init(Alloy.Globals.localyticsKey);
+			Localytics.setCustomerId(firstName);
+		}
+	}
+};
+
+// Used to set a customer first name. Example: Doe
+exports.setLastName = function(lastName) {
+	if (lastName && (!Alloy.CFG.localyticsTestMode)) {
+		if (Localytics) {
+			Localytics.setCustomerId(lastName);
+		} else {
+			_init(Alloy.Globals.localyticsKey);
+			Localytics.setCustomerId(lastName);
+		}
+	}
+};
+
+// Used to set a customer first name. Example: John Doe
+exports.setFullName = function(fullName) {
+	if (fullName && (!Alloy.CFG.localyticsTestMode)) {
+		if (Localytics) {
+			Localytics.setCustomerId(fullName);
+		} else {
+			_init(Alloy.Globals.localyticsKey);
+			Localytics.setCustomerId(fullName);
+		}
+	}
+};
+
+// Used to set a customer email address. Example: sir.john@smith.com
+exports.setEmailAddress = function(emailAddress) {
+	if (emailAddress && (!Alloy.CFG.localyticsTestMode)) {
+		if (Localytics) {
+			Localytics.setCustomerId(emailAddress);
+		} else {
+			_init(Alloy.Globals.localyticsKey);
+			Localytics.setCustomerId(emailAddress);
+		}
 	}
 };
 
