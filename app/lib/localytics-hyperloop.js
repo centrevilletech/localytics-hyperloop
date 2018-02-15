@@ -193,10 +193,10 @@ exports.setCustomerId = function(customerId) {
 exports.setFirstName = function(firstName) {
 	if (firstName && (!Alloy.CFG.localyticsTestMode)) {
 		if (Localytics) {
-			Localytics.setCustomerId(firstName);
+			Localytics.setCustomerFirstName(firstName);
 		} else {
 			_init(Alloy.Globals.localyticsKey);
-			Localytics.setCustomerId(firstName);
+			Localytics.setCustomerFirstName(firstName);
 		}
 	}
 };
@@ -205,10 +205,10 @@ exports.setFirstName = function(firstName) {
 exports.setLastName = function(lastName) {
 	if (lastName && (!Alloy.CFG.localyticsTestMode)) {
 		if (Localytics) {
-			Localytics.setCustomerId(lastName);
+			Localytics.setCustomerLastName(lastName);
 		} else {
 			_init(Alloy.Globals.localyticsKey);
-			Localytics.setCustomerId(lastName);
+			Localytics.setCustomerLastName(lastName);
 		}
 	}
 };
@@ -217,10 +217,10 @@ exports.setLastName = function(lastName) {
 exports.setFullName = function(fullName) {
 	if (fullName && (!Alloy.CFG.localyticsTestMode)) {
 		if (Localytics) {
-			Localytics.setCustomerId(fullName);
+			Localytics.setCustomerFullName(fullName);
 		} else {
 			_init(Alloy.Globals.localyticsKey);
-			Localytics.setCustomerId(fullName);
+			Localytics.setCustomerFullName(fullName);
 		}
 	}
 };
@@ -229,10 +229,10 @@ exports.setFullName = function(fullName) {
 exports.setEmailAddress = function(emailAddress) {
 	if (emailAddress && (!Alloy.CFG.localyticsTestMode)) {
 		if (Localytics) {
-			Localytics.setCustomerId(emailAddress);
+			Localytics.setCustomerEmail(emailAddress);
 		} else {
 			_init(Alloy.Globals.localyticsKey);
-			Localytics.setCustomerId(emailAddress);
+			Localytics.setCustomerEmail(emailAddress);
 		}
 	}
 };
