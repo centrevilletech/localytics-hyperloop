@@ -105,17 +105,54 @@ exports.setProfileAttribute = function(key, value) {
 // Returns the app inbox view that you can embed into your app.
 // This is a standard view like any other that you can set a width/height/opacity/etc on.
 exports.getAppInboxView = function () {
-	if (OS_ANDROID) {
-		console.error('getAppInboxView() is not currently supported on Android.');
-		return;
-	}
-	if (!inboxViewController) {
-		// TODO: Remove the titlebar of the AppInbox until a campaign is opened. Then hide it again after a campaign is closed.
-		var inboxViewController = InboxViewController.alloc().init();
-		var navigationController = NavigationController.alloc().initWithRootViewController(inboxViewController);
-		containerView = Ti.UI.createView();
-		containerView.add(navigationController.view);
+	if (OS_IOS) {
+		if (!inboxViewController) {
+			// TODO: Remove the titlebar of the AppInbox until a campaign is opened. Then hide it again after a campaign is closed.
+			var inboxViewController = InboxViewController.alloc().init();
+			var navigationController = NavigationController.alloc().initWithRootViewController(inboxViewController);
+			containerView = Ti.UI.createView();
+			containerView.add(navigationController.view);
+			return containerView;
+		}
+	} else if (OS_ANDROID) {
+
+		// Load dependencies.
+		var ListView = require('android.widget.ListView');
+		var Activity = require('android.app.Activity');
+		var InboxListAdapter = require('com.localytics.android.InboxListAdapter');
+
+		// Create instances.
+		var currentActivity = new Activity(Ti.Android.currentActivity);
+		var inboxListView = new ListView(currentActivity);
+		var inboxListAdapter = new InboxListAdapter(currentActivity);
+
+		var containerView = Ti.UI.createView();
+
+		var emptyTextView = Ti.UI.createLabel({
+			text: 'No messages to display.',
+			color: '#000',
+			backgroundColor: '#FFF',
+			font: {
+				fontSize: 12
+			}
+		});
+
+		containerView.add(inboxListView);
+		containerView.add(emptyTextView);
+
+		inboxListView.setEmptyView(emptyTextView);
+		inboxListView.setAdapter(inboxListAdapter);
+
+		// Find the finish event.
+		inboxListAdapter.getData(new InboxListAdapter.Listener({
+			didFinishLoadingCampaigns: function () {
+				console.log('We finished loading the campaigns!!!');
+				console.log('Campaign Count: ' + inboxListView.getCount());
+			}
+		}));
+
 		return containerView;
+
 	}
 };
 
