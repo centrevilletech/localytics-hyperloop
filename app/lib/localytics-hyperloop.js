@@ -124,7 +124,6 @@ exports.getAppInboxView = function () {
 		// Create instances.
 		var currentActivity = new Activity(Ti.Android.currentActivity);
 		var inboxListView = new ListView(currentActivity);
-		var inboxListAdapter = new InboxListAdapter(currentActivity);
 
 		var containerView = Ti.UI.createView();
 
@@ -133,7 +132,7 @@ exports.getAppInboxView = function () {
 			color: '#000',
 			backgroundColor: '#FFF',
 			font: {
-				fontSize: 12
+				fontSize: 16
 			}
 		});
 
@@ -160,10 +159,6 @@ exports.getAppInboxView = function () {
 // If none are in the cache, youll get an empty array.
 // You MUST run startAppInboxBackgroundService() before this will return anything.
 exports.getAppInboxCampaigns = function () {
-	if (OS_ANDROID) {
-		console.error('getAppInboxCampaigns() is not currently supported on Android.');
-		return;
-	}
 	return currentInboxMessages;
 };
 
