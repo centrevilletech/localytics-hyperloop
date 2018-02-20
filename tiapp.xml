@@ -44,6 +44,8 @@
 	<android 
 		xmlns:android="http://schemas.android.com/apk/res/android">
 		<manifest>
+			<uses-permission android:name="android.permission.INTERNET" />
+			<uses-permission android:name="android.permission.WAKE_LOCK" />
 			<application android:icon="@drawable/appicon" android:label="hyperloop.testapp" android:name="HyperloopTestappApplication" android:debuggable="false" android:theme="@style/Theme.AppCompat" android:resizeableActivity="true">
 				<activity android:name=".HyperloopTestappActivity" android:label="@string/app_name" android:theme="@style/Theme.Titanium" android:configChanges="keyboardHidden|orientation|fontScale|screenSize|smallestScreenSize|screenLayout|density">
 					<intent-filter>
@@ -57,10 +59,17 @@
 						<category android:name="android.intent.category.BROWSABLE" />
 					</intent-filter>
 				</activity>
+				<receiver android:name="com.localytics.android.ReferralReceiver" android:exported="true">
+					<intent-filter>
+						<action android:name="com.android.vending.INSTALL_REFERRER" />
+					</intent-filter>
+				</receiver>
+				<receiver android:name="com.localytics.android.LocationUpdateReceiver"/>
 			</application>
 		</manifest>
 	</android>
 	<modules>
+		<module platform="android">ti.stetho</module>
 		<module platform="android">hyperloop</module>
 		<module platform="iphone">hyperloop</module>
 	</modules>

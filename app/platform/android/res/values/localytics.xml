@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <!-- Define your Localytics app key-->
-    <string name="ll_app_key" translatable="false">YOUR-LOCALYTICS-KEY-HERE</string>
+    <string name="ll_app_key" translatable="false">YOUR-LOCALYTICS-APP-KEY</string>
 
     <!-- Toggle the Localytics referral receiver which is used to attribute sessions to
     their installation source -->
@@ -40,4 +40,6 @@
     <string name="ll_default_places_channel_name" translatable="false">Default</string>
     <!--Configure the default channel description used for places notifications-->
     <string name="ll_default_places_channel_description" translatable="false"/>
+    <!-- No messages, Android AppInbox. -->
+    <string name="no_messages">No messages right now.</string>
 </resources>

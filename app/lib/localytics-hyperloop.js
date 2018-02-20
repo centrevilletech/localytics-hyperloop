@@ -33,7 +33,7 @@ function _init(localyticsKey) {
 			var LocalyticsActivityLifecycleCallbacks = require('com.localytics.android.LocalyticsActivityLifecycleCallbacks');
 			Localytics = require('com.localytics.android.Localytics');
 			var app = currentActivity.getApplication();
-			Localytics.integrate(currentActivity.getApplication().getApplicationContext());
+			Localytics.autoIntegrate(currentActivity.getApplication().getApplicationContext());
 			app.registerActivityLifecycleCallbacks(new LocalyticsActivityLifecycleCallbacks(app.getApplicationContext()));
 			Localytics.setLoggingEnabled(true);
 		}
@@ -106,47 +106,47 @@ exports.setProfileAttribute = function(key, value) {
 // This is a standard view like any other that you can set a width/height/opacity/etc on.
 exports.getAppInboxView = function () {
 	if (OS_IOS) {
+
 		if (!inboxViewController) {
+
 			// TODO: Remove the titlebar of the AppInbox until a campaign is opened. Then hide it again after a campaign is closed.
 			var inboxViewController = InboxViewController.alloc().init();
 			var navigationController = NavigationController.alloc().initWithRootViewController(inboxViewController);
 			containerView = Ti.UI.createView();
 			containerView.add(navigationController.view);
 			return containerView;
+
 		}
+
 	} else if (OS_ANDROID) {
 
 		// Load dependencies.
 		var ListView = require('android.widget.ListView');
+		var TextView = require('android.widget.TextView');
 		var Activity = require('android.app.Activity');
 		var InboxListAdapter = require('com.localytics.android.InboxListAdapter');
+		var LayoutInflater = require('android.view.LayoutInflater');
+		var Color = require("android.graphics.Color");
 
 		// Create instances.
 		var currentActivity = new Activity(Ti.Android.currentActivity);
-		var inboxListView = new ListView(currentActivity);
+		var inboxListAdapter = new InboxListAdapter(currentActivity);
+		var inflater = LayoutInflater.from(currentActivity.getApplicationContext());
+		var containerView = inflater.inflate(Titanium.App.Android.R.layout["activity_inbox"], null);
+		var inboxListView = ListView.cast(containerView.findViewById(Titanium.App.Android.R.id.lv_inbox));
+		var emptyTextView = TextView.cast(containerView.findViewById(Titanium.App.Android.R.id.tv_empty_inbox));
 
-		var containerView = Ti.UI.createView();
-
-		var emptyTextView = Ti.UI.createLabel({
-			text: 'No messages to display.',
-			color: '#000',
-			backgroundColor: '#FFF',
-			font: {
-				fontSize: 16
-			}
-		});
-
-		containerView.add(inboxListView);
-		containerView.add(emptyTextView);
-
-		inboxListView.setEmptyView(emptyTextView);
+		// Setup the ListView with an adapter.
 		inboxListView.setAdapter(inboxListAdapter);
+		inboxListView.setBackgroundColor(Color.parseColor("#ec473c"));
+		inboxListView.setEmptyView(emptyTextView);
+		emptyTextView.setBackgroundColor(Color.parseColor("#ec473c"));
 
-		// Find the finish event.
+		// Load data from the adapter.
 		inboxListAdapter.getData(new InboxListAdapter.Listener({
 			didFinishLoadingCampaigns: function () {
 				console.log('We finished loading the campaigns!!!');
-				console.log('Campaign Count: ' + inboxListView.getCount());
+				console.log('Campaign Count: ' + inboxListView.getAdapter().getCount());
 			}
 		}));
 
