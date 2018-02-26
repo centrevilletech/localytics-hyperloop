@@ -70,7 +70,6 @@
 		</manifest>
 	</android>
 	<modules>
-		<module platform="android">ti.stetho</module>
 		<module platform="android">hyperloop</module>
 		<module platform="iphone">hyperloop</module>
 	</modules>
