@@ -33,7 +33,7 @@ function _init(localyticsKey) {
 			var LocalyticsActivityLifecycleCallbacks = require('com.localytics.android.LocalyticsActivityLifecycleCallbacks');
 			Localytics = require('com.localytics.android.Localytics');
 			var app = currentActivity.getApplication();
-			Localytics.autoIntegrate(currentActivity.getApplication().getApplicationContext());
+			Localytics.integrate(currentActivity.getApplication().getApplicationContext());
 			app.registerActivityLifecycleCallbacks(new LocalyticsActivityLifecycleCallbacks(app.getApplicationContext()));
 			Localytics.setLoggingEnabled(true);
 		}
