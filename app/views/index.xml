@@ -16,13 +16,18 @@
 		</Tab>
 		<Tab title="App Inbox">
 			<Window id="appInboxTabWindow" title="App Inbox">
-
+				<View id="appInboxContainerView" />
+				<View id="appInboxControlBoxView">
+					<Button title="Reload Inbox (Android)" id="reloadInboxBtn" onClick="doReloadInboxBtnClick" />
+				</View>
 			</Window>
 		</Tab>
 		<Tab title="Misc">
 			<Window id="miscTabWindow" title="Misc">
 				<ScrollView id="miscTabScrollContainerView">
 					<Button title="Upload" id="uploadBtn" onClick="doUploadBtnClick" />
+					<Button title="Start AppInbox BG Service (iOS Only)" id="startBGServiceBtn" onClick="doStartAppInboxBackgroundServiceBtnClick" />
+					<Button title="Stop AppInbox BG Service (iOS Only)" id="stopBGServiceBtn" onClick="doStopAppInboxBackgroundServiceBtnClick" />
 				</ScrollView>
 			</Window>
 		</Tab>

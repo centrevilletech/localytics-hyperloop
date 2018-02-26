@@ -9,4 +9,23 @@
 
 "#miscTabScrollContainerView": {
 	layout: 'vertical'	
+},
+
+"#appInboxTabWindow": {
+	layout: 'vertical'
+},
+
+"#appInboxContainerView": {
+	height: '90%'
+},
+
+"#appInboxControlBoxView": {
+	height: '10%',
+	backgroundColor: 'gray'
+},
+
+"#reloadInboxBtn": {
+	height: '80%',
+	top: '10%',
+	color: '#FFF'
 }

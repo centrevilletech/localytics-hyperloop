@@ -1,9 +1,10 @@
 var localyticsHyperloop = require('localytics-hyperloop');
 localyticsHyperloop.init('YOUR-LOCALYTICS-KEY-HERE');
-localyticsHyperloop.startAppInboxBackgroundService();
+
+var appInboxView = localyticsHyperloop.getAppInboxView();
 
 $.index.open();    
-$.appInboxTabWindow.add(localyticsHyperloop.getAppInboxView());
+$.appInboxContainerView.add(appInboxView);
 
 /*
  * Event Listeners
@@ -54,10 +55,44 @@ function doSetEmailAddressBtnClick() {
 
 /*
  * Event Listeners
+ * - App Inbox Tab
+ */
+
+function doReloadInboxBtnClick() {
+	if (OS_IOS) {
+		alert('Not supported on iOS yet.');
+		// appInboxView.reload();
+	} else {
+		appInboxView.reload(function () {
+			alert('Reloaded the AppInbox successfully!');
+		});
+	}
+}
+
+/*
+ * Event Listeners
  * - Misc Tab
  */
 
 function doUploadBtnClick() {
 	localyticsHyperloop.upload();
 	alert('Hit the Upload method!');
+}
+
+function doStartAppInboxBackgroundServiceBtnClick() {
+	if (OS_IOS) {
+		localyticsHyperloop.startAppInboxBackgroundService();
+		alert('Started the background service!');
+	} else {
+		alert('Not supported on Android!');
+	}
+}
+
+function doStopAppInboxBackgroundServiceBtnClick() {
+	if (OS_IOS) {
+		localyticsHyperloop.stopAppInboxBackgroundService();
+		alert('Stopped the background service!');
+	} else {
+		alert('Not supported on Android!');
+	}	
 }
