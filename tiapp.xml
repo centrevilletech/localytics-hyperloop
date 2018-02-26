@@ -44,6 +44,7 @@
 	<android 
 		xmlns:android="http://schemas.android.com/apk/res/android">
 		<manifest>
+			<uses-sdk android:targetSdkVersion="26" />
 			<uses-permission android:name="android.permission.INTERNET" />
 			<uses-permission android:name="android.permission.WAKE_LOCK" />
 			<application android:icon="@drawable/appicon" android:label="hyperloop.testapp" android:name="HyperloopTestappApplication" android:debuggable="false" android:theme="@style/Theme.AppCompat" android:resizeableActivity="true">
