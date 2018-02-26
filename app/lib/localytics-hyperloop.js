@@ -112,21 +112,30 @@ exports.getAppInboxView = function () {
 			// TODO: Remove the titlebar of the AppInbox until a campaign is opened. Then hide it again after a campaign is closed.
 			var inboxViewController = InboxViewController.alloc().init();
 			var navigationController = NavigationController.alloc().initWithRootViewController(inboxViewController);
-			containerView = Ti.UI.createView();
-			containerView.add(navigationController.view);
-			return containerView;
+			returnView = Ti.UI.createView();
+			returnView.add(navigationController.view);
+
+			// TODO: Build out code to reload the AppInbox when this method is hit.
+			returnView.reload = function (callback) {
+				console.error('reload of AppInbox not supportedy yet on iOS.');
+				if (typeof callback === 'function') {
+					callback();
+				}
+			};
+
+			return returnView;
 
 		}
 
 	} else if (OS_ANDROID) {
 
 		// Load dependencies.
+		var returnView = Ti.UI.createView();
 		var ListView = require('android.widget.ListView');
 		var TextView = require('android.widget.TextView');
 		var Activity = require('android.app.Activity');
 		var InboxListAdapter = require('com.localytics.android.InboxListAdapter');
 		var LayoutInflater = require('android.view.LayoutInflater');
-		var Color = require("android.graphics.Color");
 
 		// Create instances.
 		var currentActivity = new Activity(Ti.Android.currentActivity);
@@ -138,19 +147,26 @@ exports.getAppInboxView = function () {
 
 		// Setup the ListView with an adapter.
 		inboxListView.setAdapter(inboxListAdapter);
-		inboxListView.setBackgroundColor(Color.parseColor("#ec473c"));
 		inboxListView.setEmptyView(emptyTextView);
-		emptyTextView.setBackgroundColor(Color.parseColor("#ec473c"));
+		returnView.add(containerView);
 
-		// Load data from the adapter.
-		inboxListAdapter.getData(new InboxListAdapter.Listener({
-			didFinishLoadingCampaigns: function () {
-				console.log('We finished loading the campaigns!!!');
-				console.log('Campaign Count: ' + inboxListView.getAdapter().getCount());
-			}
-		}));
+		// Used to trigger a reload of the AppInbox.
+		returnView.reload = function (callback) {
+			inboxListAdapter.getData(new InboxListAdapter.Listener({
+				didFinishLoadingCampaigns: function () {
+					console.log('AppInbox Loaded: ' + inboxListView.getAdapter().getCount());
+					if (typeof callback === 'function') {
+						callback();
+					}
+				}
+			}));
+		};
 
-		return containerView;
+		// Go ahead and trigger a reload so it's populated.
+		returnView.reload();
+
+		// Return the view.
+		return returnView;
 
 	}
 };
