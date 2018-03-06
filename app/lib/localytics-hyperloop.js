@@ -180,8 +180,7 @@ exports.getAppInboxView = function (args) {
 		var Intent = require('android.content.Intent');
 		var InboxDetailFragment = require('com.localytics.android.InboxDetailFragment'),
 			TypedValue = require('android.util.TypedValue'),
-			Gravity = require('android.view.Gravity'),
-			LayoutParams = require('android.widget.FrameLayout.LayoutParams');
+			Gravity = require('android.view.Gravity');
 
 		// Create instances.
 		var currentActivity = new Activity(Ti.Android.currentActivity);
