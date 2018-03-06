@@ -134,6 +134,10 @@ exports.getAppInboxView = function () {
 					 detailViewController = Localytics.inboxDetailViewControllerForCampaign(campaign);	  
 					 detailViewController.view.addSubview(detailCloseBtn);
 					 TiApp.app().showModalController(detailViewController, true);
+					 if (!campaign.isRead()) {
+					 	campaign.setRead(true);
+					 	tableView.reloadData();
+					 }
 				}
 			});
 			
