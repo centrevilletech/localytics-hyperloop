@@ -203,16 +203,16 @@ exports.getAppInboxView = function (args) {
 				var fragment = InboxDetailFragment.newInstance(campaign);
 
 				var detail = Ti.UI.createWindow({
-					title: args.detailTitle
+					title: args.detailTitle,
+					theme: "Theme.AppCompat.Translucent"
 				});
 
 				// Handle the detail window opening.
-				var detailWindowOpenEvent = function () {
+				var detailWindowOpenEvent = function (e) {
 
 					var currentActivity = new Activity(Ti.Android.currentActivity);
 
-					// Display back button in action bar and close detail when it's clicked.
-					var actionBar = detail.activity.actionBar;
+					var actionBar = e.source.activity.actionBar;
 					actionBar.displayHomeAsUp = true;
 					actionBar.onHomeIconItemSelected = function () {
 						detail.close();
