@@ -14,7 +14,7 @@ Also includes sample code showing you how to use the methods developed for Local
 - [x] Customer Identifier Method Support (for setting email, name, id, etc.)
 - [x] Trigger manual data upload.
 - [x] App Inbox Support for iOS
-- [ ] TODO: App Inbox Support for Android
+- [x] App Inbox Support for Android
 - [ ] TODO: Add support for handling incoming push notifications.
 
 ### Roadmap
