@@ -108,12 +108,34 @@ exports.getAppInboxView = function () {
 	if (OS_IOS) {
 
 		if (!inboxViewController) {
-
+				
+			var CustomInboxViewController = Hyperloop.defineClass('CustomInboxViewController', 'LLInboxViewController');
+			CustomInboxViewController.addMethod({
+				selector: 'tableView:didSelectRowAtIndexPath:',
+				instance: true,
+				arguments: ['UITableView', 'NSIndexPath'],
+				callback: function (tableView, indexPath) {
+					 var campaign = inboxViewController.campaignForRowAtIndexPath(indexPath);
+					 var detailViewController = Localytics.inboxDetailViewControllerForCampaign(campaign);
+					 var closeBtn = Ti.UI.createButton({ 
+		  							  title : "Done",
+		  							  top :10, 
+		  							  left :10,
+		  							  width : 50,
+		  							  height: 50
+								  });
+					 closeBtn.addEventListener('click', function(){
+					 	 TiApp.app().hideModalController(detailViewController, true);
+					 });			  
+					 detailViewController.view.addSubview(closeBtn);
+					 TiApp.app().showModalController(detailViewController, true);
+				}
+			});
+			
 			// TODO: Remove the titlebar of the AppInbox until a campaign is opened. Then hide it again after a campaign is closed.
-			var inboxViewController = InboxViewController.alloc().init();
-			var navigationController = NavigationController.alloc().initWithRootViewController(inboxViewController);
-			returnView = Ti.UI.createView();
-			returnView.add(navigationController.view);
+			var inboxViewController = CustomInboxViewController.alloc().init();
+			var returnView = Ti.UI.createView();
+			returnView.add(inboxViewController.view);
 
 			// TODO: Build out code to reload the AppInbox when this method is hit.
 			returnView.reload = function (callback) {
@@ -131,11 +153,18 @@ exports.getAppInboxView = function () {
 
 		// Load dependencies.
 		var returnView = Ti.UI.createView();
+		var View = require('android.view.View');
 		var ListView = require('android.widget.ListView');
 		var TextView = require('android.widget.TextView');
 		var Activity = require('android.app.Activity');
 		var InboxListAdapter = require('com.localytics.android.InboxListAdapter');
 		var LayoutInflater = require('android.view.LayoutInflater');
+		var AdapterView = require('android.widget.AdapterView');     
+		var Intent = require('android.content.Intent');
+		var InboxDetailFragment = require('com.localytics.android.InboxDetailFragment'),
+			TypedValue = require('android.util.TypedValue'),
+			Gravity = require('android.view.Gravity'),
+			LayoutParams = require('android.widget.FrameLayout.LayoutParams');
 
 		// Create instances.
 		var currentActivity = new Activity(Ti.Android.currentActivity);
@@ -148,6 +177,29 @@ exports.getAppInboxView = function () {
 		// Setup the ListView with an adapter.
 		inboxListView.setAdapter(inboxListAdapter);
 		inboxListView.setEmptyView(emptyTextView);
+		inboxListView.setOnItemClickListener(new AdapterView.OnItemClickListener({
+            onItemClick: function(adapterView, view, i, l) {
+            	
+            	   var campaign = inboxListAdapter.getItem(i);
+            	   var fragment = InboxDetailFragment.newInstance(campaign);
+            	   
+                   var detail = Ti.UI.createWindow();
+	                   	
+                   detail.addEventListener('open', function(){
+                   	   var currentActivity = new Activity(Ti.Android.currentActivity);
+		               var inflater = LayoutInflater.from(currentActivity.getApplicationContext());
+		               var campaignDetailView = inflater.inflate(Titanium.App.Android.R.layout["campaign_detail"], null);
+		               var innerView = Ti.UI.createView({width:'100%', height:'100%', backgroundColor:'#FFF'});
+		               innerView.add(campaignDetailView);
+		               detail.add(innerView);
+	                   currentActivity.getFragmentManager().beginTransaction()
+	                   .replace(Titanium.App.Android.R.id.ll_fragment_container, fragment)
+	                   .commitAllowingStateLoss();
+                   });
+        
+                   detail.open();    
+            }
+        }));
 		returnView.add(containerView);
 
 		// Used to trigger a reload of the AppInbox.
