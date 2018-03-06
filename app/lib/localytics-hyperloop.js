@@ -117,17 +117,17 @@ exports.getAppInboxView = function () {
 				callback: function (tableView, indexPath) {
 					 var campaign = inboxViewController.campaignForRowAtIndexPath(indexPath);
 					 var detailViewController = Localytics.inboxDetailViewControllerForCampaign(campaign);
-					 var closeBtn = Ti.UI.createButton({ 
+					 detailViewController.closeBtn = Ti.UI.createButton({ 
 		  							  title : "Done",
 		  							  top :10, 
 		  							  left :10,
 		  							  width : 50,
 		  							  height: 50
 								  });
-					 closeBtn.addEventListener('click', function(){
+					 detailViewController.closeBtn.addEventListener('click', function(){
 					 	 TiApp.app().hideModalController(detailViewController, true);
 					 });			  
-					 detailViewController.view.addSubview(closeBtn);
+					 detailViewController.view.addSubview(detailViewController.closeBtn);
 					 TiApp.app().showModalController(detailViewController, true);
 				}
 			});
@@ -158,6 +158,7 @@ exports.getAppInboxView = function () {
 		var TextView = require('android.widget.TextView');
 		var Activity = require('android.app.Activity');
 		var InboxListAdapter = require('com.localytics.android.InboxListAdapter');
+		var InboxCampaign = require('com.localytics.android.InboxCampaign');
 		var LayoutInflater = require('android.view.LayoutInflater');
 		var AdapterView = require('android.widget.AdapterView');     
 		var Intent = require('android.content.Intent');
@@ -180,7 +181,9 @@ exports.getAppInboxView = function () {
 		inboxListView.setOnItemClickListener(new AdapterView.OnItemClickListener({
             onItemClick: function(adapterView, view, i, l) {
             	
-            	   var campaign = inboxListAdapter.getItem(i);
+            	   var campaign = InboxCampaign.cast(inboxListAdapter.getItem(i));
+            	   campaign.setRead(true);
+				   inboxListAdapter.notifyDataSetChanged();
             	   var fragment = InboxDetailFragment.newInstance(campaign);
             	   
                    var detail = Ti.UI.createWindow();
