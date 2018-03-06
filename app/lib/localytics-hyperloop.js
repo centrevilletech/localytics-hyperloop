@@ -104,7 +104,14 @@ exports.setProfileAttribute = function(key, value) {
 
 // Returns the app inbox view that you can embed into your app.
 // This is a standard view like any other that you can set a width/height/opacity/etc on.
-exports.getAppInboxView = function () {
+exports.getAppInboxView = function (args) {
+
+	if (!args) {
+		var args = {
+			detailTitle: 'View Message'
+		};
+	}
+
 	if (OS_IOS) {
 
 		if (!inboxViewController) {
@@ -188,30 +195,59 @@ exports.getAppInboxView = function () {
 		inboxListView.setAdapter(inboxListAdapter);
 		inboxListView.setEmptyView(emptyTextView);
 		inboxListView.setOnItemClickListener(new AdapterView.OnItemClickListener({
-            onItemClick: function(adapterView, view, i, l) {
-            	
-            	   var campaign = InboxCampaign.cast(inboxListAdapter.getItem(i));
-            	   campaign.setRead(true);
-				   inboxListAdapter.notifyDataSetChanged();
-            	   var fragment = InboxDetailFragment.newInstance(campaign);
-            	   
-                   var detail = Ti.UI.createWindow();
-	                   	
-                   detail.addEventListener('open', function(){
-                   	   var currentActivity = new Activity(Ti.Android.currentActivity);
-		               var inflater = LayoutInflater.from(currentActivity.getApplicationContext());
-		               var campaignDetailView = inflater.inflate(Titanium.App.Android.R.layout["campaign_detail"], null);
-		               var innerView = Ti.UI.createView({width:'100%', height:'100%', backgroundColor:'#FFF'});
-		               innerView.add(campaignDetailView);
-		               detail.add(innerView);
-	                   currentActivity.getFragmentManager().beginTransaction()
-	                   .replace(Titanium.App.Android.R.id.ll_fragment_container, fragment)
-	                   .commitAllowingStateLoss();
-                   });
-        
-                   detail.open();    
-            }
-        }));
+
+			onItemClick: function(adapterView, view, i, l) {
+
+				var campaign = InboxCampaign.cast(inboxListAdapter.getItem(i));
+				campaign.setRead(true);
+				inboxListAdapter.notifyDataSetChanged();
+				var fragment = InboxDetailFragment.newInstance(campaign);
+
+				var detail = Ti.UI.createWindow({
+					title: args.detailTitle
+				});
+
+				// Handle the detail window opening.
+				var detailWindowOpenEvent = function () {
+
+					var currentActivity = new Activity(Ti.Android.currentActivity);
+
+					// Display back button in action bar and close detail when it's clicked.
+					var actionBar = detail.activity.actionBar;
+					actionBar.displayHomeAsUp = true;
+					actionBar.onHomeIconItemSelected = function () {
+						detail.close();
+					};
+
+					// Display UI for the detail view.
+					var inflater = LayoutInflater.from(currentActivity.getApplicationContext());
+					var campaignDetailView = inflater.inflate(Titanium.App.Android.R.layout["campaign_detail"], null);
+					var innerView = Ti.UI.createView({width:'100%', height:'100%', backgroundColor:'#FFF'});
+
+					innerView.add(campaignDetailView);
+					detail.add(innerView);
+					currentActivity.getFragmentManager().beginTransaction()
+						.replace(Titanium.App.Android.R.id.ll_fragment_container, fragment)
+						.commitAllowingStateLoss();
+
+				};
+
+				// Handles the detail view closing.
+				var detailWindowCloseEvent = function () {
+					detail.removeEventListener('open', detailWindowOpenEvent);
+					detail.removeEventListener('close', detailWindowCloseEvent);
+				};
+
+				// Bind events.
+				detail.addEventListener('open', detailWindowOpenEvent);
+				detail.addEventListener('close', detailWindowCloseEvent);
+
+				// Display the detail view!
+				detail.open();
+
+			}
+
+		}));
 		returnView.add(containerView);
 
 		// Used to trigger a reload of the AppInbox.
