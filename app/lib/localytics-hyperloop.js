@@ -108,6 +108,21 @@ exports.getAppInboxView = function () {
 	if (OS_IOS) {
 
 		if (!inboxViewController) {
+
+			var detailViewController,
+				detailCloseBtn;
+
+			detailCloseBtn = Ti.UI.createButton({ 
+				title: "Done",
+				top: 10, 
+				left: 10,
+				width: 50,
+				height: 50
+			});
+
+			detailCloseBtn.addEventListener('click', function () {
+				TiApp.app().hideModalController(detailViewController, true);
+			});
 				
 			var CustomInboxViewController = Hyperloop.defineClass('CustomInboxViewController', 'LLInboxViewController');
 			CustomInboxViewController.addMethod({
@@ -116,18 +131,8 @@ exports.getAppInboxView = function () {
 				arguments: ['UITableView', 'NSIndexPath'],
 				callback: function (tableView, indexPath) {
 					 var campaign = inboxViewController.campaignForRowAtIndexPath(indexPath);
-					 var detailViewController = Localytics.inboxDetailViewControllerForCampaign(campaign);
-					 detailViewController.closeBtn = Ti.UI.createButton({ 
-		  							  title : "Done",
-		  							  top :10, 
-		  							  left :10,
-		  							  width : 50,
-		  							  height: 50
-								  });
-					 detailViewController.closeBtn.addEventListener('click', function(){
-					 	 TiApp.app().hideModalController(detailViewController, true);
-					 });			  
-					 detailViewController.view.addSubview(detailViewController.closeBtn);
+					 detailViewController = Localytics.inboxDetailViewControllerForCampaign(campaign);	  
+					 detailViewController.view.addSubview(detailCloseBtn);
 					 TiApp.app().showModalController(detailViewController, true);
 				}
 			});
