@@ -60,7 +60,9 @@ function doSetEmailAddressBtnClick() {
 
 function doReloadInboxBtnClick() {
 	if (OS_IOS) {
-		alert('Not supported on iOS yet.');
+		appInboxView.reload(function () {
+			alert('Reloaded the AppInbox successfully!');
+		});
 		// appInboxView.reload();
 	} else {
 		appInboxView.reload(function () {

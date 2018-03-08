@@ -117,14 +117,15 @@ exports.getAppInboxView = function (args) {
 		if (!inboxViewController) {
 
 			var detailViewController,
+				navigationController,
 				detailCloseBtn;
 
 			detailCloseBtn = Ti.UI.createButton({ 
 				title: "Done",
-				top: 10, 
+				top: 20, 
 				left: 10,
-				width: 50,
-				height: 50
+				width: 44,
+				height: 44
 			});
 
 			detailCloseBtn.addEventListener('click', function () {
@@ -139,8 +140,9 @@ exports.getAppInboxView = function (args) {
 				callback: function (tableView, indexPath) {
 					 var campaign = inboxViewController.campaignForRowAtIndexPath(indexPath);
 					 detailViewController = Localytics.inboxDetailViewControllerForCampaign(campaign);	  
-					 detailViewController.view.addSubview(detailCloseBtn);
-					 TiApp.app().showModalController(detailViewController, true);
+					 navigationController = NavigationController.alloc().initWithRootViewController(detailViewController);
+					 navigationController.view.addSubview(detailCloseBtn);
+					 TiApp.app().showModalController(navigationController, true);
 					 if (!campaign.isRead()) {
 					 	campaign.setRead(true);
 					 	tableView.reloadData();
@@ -155,10 +157,12 @@ exports.getAppInboxView = function (args) {
 
 			// TODO: Build out code to reload the AppInbox when this method is hit.
 			returnView.reload = function (callback) {
-				console.error('reload of AppInbox not supportedy yet on iOS.');
-				if (typeof callback === 'function') {
-					callback();
-				}
+				//console.error('reload of AppInbox not supportedy yet on iOS.');
+				Localytics.refreshInboxCampaigns(function(inboxCampaigns){
+					if (typeof callback === 'function') {
+						callback();
+					}
+				});
 			};
 
 			return returnView;
@@ -180,8 +184,8 @@ exports.getAppInboxView = function (args) {
 		var Intent = require('android.content.Intent');
 		var InboxDetailFragment = require('com.localytics.android.InboxDetailFragment'),
 			TypedValue = require('android.util.TypedValue'),
-			Gravity = require('android.view.Gravity');
-
+			Gravity = require('android.view.Gravity');    
+				
 		// Create instances.
 		var currentActivity = new Activity(Ti.Android.currentActivity);
 		var inboxListAdapter = new InboxListAdapter(currentActivity);
@@ -189,7 +193,7 @@ exports.getAppInboxView = function (args) {
 		var containerView = inflater.inflate(Titanium.App.Android.R.layout["activity_inbox"], null);
 		var inboxListView = ListView.cast(containerView.findViewById(Titanium.App.Android.R.id.lv_inbox));
 		var emptyTextView = TextView.cast(containerView.findViewById(Titanium.App.Android.R.id.tv_empty_inbox));
-
+  	
 		// Setup the ListView with an adapter.
 		inboxListView.setAdapter(inboxListAdapter);
 		inboxListView.setEmptyView(emptyTextView);

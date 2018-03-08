@@ -48,7 +48,7 @@
 			<uses-permission android:name="android.permission.INTERNET" />
 			<uses-permission android:name="android.permission.WAKE_LOCK" />
 			<application android:icon="@drawable/appicon" android:label="hyperloop.testapp" android:name="HyperloopTestappApplication" android:debuggable="false" android:theme="@style/Theme.AppCompat" android:resizeableActivity="true">
-				<activity android:name=".HyperloopTestappActivity" android:label="@string/app_name" android:theme="@style/Theme.Titanium" android:configChanges="keyboardHidden|orientation|fontScale|screenSize|smallestScreenSize|screenLayout|density">
+				<activity android:name=".HyperloopTestappActivity" android:label="@string/app_name" android:theme="@style/AppTheme" android:configChanges="keyboardHidden|orientation|fontScale|screenSize|smallestScreenSize|screenLayout|density">
 					<intent-filter>
 						<action android:name="android.intent.action.MAIN"/>
 						<category android:name="android.intent.category.LAUNCHER"/>

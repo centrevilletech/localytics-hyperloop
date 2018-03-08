@@ -15,10 +15,10 @@
 			</Window>
 		</Tab>
 		<Tab title="App Inbox">
-			<Window id="appInboxTabWindow" title="App Inbox">
+			<Window id="appInboxTabWindow" title="App Inbox" theme="AppTheme">
 				<View id="appInboxContainerView" />
 				<View id="appInboxControlBoxView">
-					<Button title="Reload Inbox (Android)" id="reloadInboxBtn" onClick="doReloadInboxBtnClick" />
+					<Button title="Reload Inbox" id="reloadInboxBtn" onClick="doReloadInboxBtnClick" />
 				</View>
 			</Window>
 		</Tab>
